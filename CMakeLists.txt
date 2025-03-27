@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.28)
-project(CMakeSFMLProject LANGUAGES CXX)
+project(physics_engine LANGUAGES CXX)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
@@ -12,6 +12,11 @@ FetchContent_Declare(SFML
     SYSTEM)
 FetchContent_MakeAvailable(SFML)
 
-add_executable(main src/main.cpp)
-target_compile_features(main PRIVATE cxx_std_17)
-target_link_libraries(main PRIVATE SFML::Graphics)
+file(GLOB_RECURSE sources
+    src/*.cpp src/*.c include/*.h include/*.hpp utils/*.hpp utils/*.h)
+
+add_executable(${PROJECT_NAME} ${sources})
+target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
+target_link_libraries(${PROJECT_NAME} PRIVATE SFML::Graphics)
+target_compile_options(${PROJECT_NAME} PUBLIC -Wall -Wfloat-conversion)
+target_include_directories(${PROJECT_NAME} PUBLIC include utils)
